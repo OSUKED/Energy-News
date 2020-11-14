@@ -29,8 +29,8 @@ def update_readme_time(readme_fp,
         txt = readme.read()
     
     start, end = txt.split(splitter)
-    old_date = end[:len(dt_format)]
-    end = end[len(dt_format):]
+    old_date = end[:16]
+    end = end[16:]
     new_date = pd.Timestamp.now().strftime(dt_format)
     
     new_txt = start + splitter + new_date + end
