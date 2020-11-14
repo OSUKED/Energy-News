@@ -8,6 +8,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      
     - name: Set up Python
       uses: actions/setup-python@v1
       with:
@@ -19,18 +20,5 @@ jobs:
         pip install -e .
         python update_data.py
         dir
-
-    - name: Commit files
-      id: commit
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "github-actions"
-        git add --all
-        git commit -m "Add changes" -a
-        echo "::set-output name=push::true"
-      shell: bash
-    - name: Push changes
-      if: steps.commit.outputs.push == 'true'
-      uses: ad-m/github-push-action@master
-      with:
-         github_token: ${{ secrets.TOKEN }}
+      
+    - uses: stefanzweifel/git-auto-commit-action@v4
