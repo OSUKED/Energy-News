@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 """
 Imports
 """
@@ -55,9 +57,9 @@ def extract_midcat_data(midcat):
 
     return article
 
-def response_2_articles(r):
+def response_to_articles(r):
     articles = list()
-    soup = BeautifulSoup(r.content)
+    soup = BeautifulSoup(r.content, features='lxml')
 
     ## Topcat
     topcat_article = extract_topcat(soup)
@@ -79,6 +81,19 @@ def response_2_articles(r):
         
     return articles
 
+def retrieve_all_current_articles():
+    articles = list()
+    sections = ['science', 'energy', 'policy']
+
+    for section in sections:
+        r = request_CB_category_page(section)
+
+        section_articles = response_to_articles(r)
+        [article.update({'section':section}) for article in section_articles]
+        articles += section_articles
+        
+    return articles
+
 
 """
 Daily Briefing
@@ -94,8 +109,10 @@ def request_CB_daily_brief_page():
     
     return r
 
-def extract_daily_briefing(r):
-    content = BeautifulSoup(r.content).find('div', {'class':'innerArt'})
+def extract_daily_briefing():
+    r = request_CB_daily_brief_page()
+    
+    content = BeautifulSoup(r.content, features='lxml').find('div', {'class':'innerArt'})
     daily_briefing = dict()
     
     daily_briefing['title'] = content.find('div', {'class': 'miscTitle'}).text.split(' | ')[1].title()
@@ -104,8 +121,7 @@ def extract_daily_briefing(r):
     return daily_briefing
 
 def daily_briefing_url_to_text():
-    r = request_CB_daily_brief_page()
-    daily_briefing = extract_daily_briefing(r)
+    daily_briefing = extract_daily_briefing()
     daily_briefing_text = f"{daily_briefing['title']}\n\n* {(chr(10)+'* ').join(daily_briefing['headlines'])}"
     
     return daily_briefing_text
