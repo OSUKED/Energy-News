@@ -14,7 +14,7 @@ setuptools.setup(
     url="https://github.com/AyrtonB/Energy-News",
     packages=setuptools.find_packages(),
     install_requires=[
-        'requests'.
+        'requests',
         'pandas',
         'numpy',
         'lxml',
