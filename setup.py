@@ -1,5 +1,13 @@
 import setuptools
 
+import pandas as pd
+import numpy as np
+import requests
+from bs4 import BeautifulSoup
+import re
+import datetime
+from ipypb import track
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
@@ -13,6 +21,13 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/AyrtonB/Energy-News",
     packages=setuptools.find_packages(),
+    install_requires=[
+        'pandas',
+        'numpy',
+        'lxml',
+        'beautifulsoup4',
+        'ipypb',
+    ]
     classifiers=[
         "Programming Language :: Python :: 3",
     ],
