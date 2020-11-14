@@ -1,0 +1,6 @@
+data/raw/**
+data/intermediate/consumption.csv
+resources/literature/**.pdf
+
+.ipynb_checkpoints
+__pycache__/
