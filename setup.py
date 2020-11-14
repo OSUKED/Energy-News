@@ -1,13 +1,5 @@
 import setuptools
 
-import pandas as pd
-import numpy as np
-import requests
-from bs4 import BeautifulSoup
-import re
-import datetime
-from ipypb import track
-
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
