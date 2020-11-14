@@ -1,10 +1,6 @@
-# Energy-News
+# Energy News
 
-Database of Energy News Stories
+Last updated: 2020-11-14 17:030200
 
 <br>
 
-Sources to add:
-- [ ] <a href="https://www.carbonbrief.org/">Carbon Brief</a>
-- [ ] <a href="https://www.current-news.co.uk/">Current News</a>
-- [ ] <a href="https://www.ft.com/companies/energy">FT Energy</a>
