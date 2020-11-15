@@ -98,8 +98,30 @@ def retrieve_all_current_articles():
 """
 Daily Briefing
 """
+def get_daily_briefing_url():
+    daily_briefing_request_url = 'https://www.carbonbrief.org/wp-admin/admin-ajax.php'
+
+    current_dt = pd.Timestamp.now()
+    days_to_go_back = max(current_dt.dayofweek-4, 0)
+    briefing_dt = (current_dt-pd.Timedelta(days=days_to_go_back)).strftime('%Y-%m-%d')
+
+    data = {
+        'action': 'getbriefurl',
+        'nonce': '9e4988efb4',
+        'date': briefing_dt
+    }
+
+    headers = {
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36'
+    }
+
+    r = requests.post(daily_briefing_request_url, data=data, headers=headers)
+    daily_briefing_url = r.text
+    
+    return daily_briefing_url
+
 def request_CB_daily_brief_page():
-    CB_url = f'https://www.carbonbrief.org/daily-brief'
+    CB_url = get_daily_briefing_url()
 
     headers = {
         'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36',
@@ -115,7 +137,7 @@ def extract_daily_briefing():
     content = BeautifulSoup(r.content, features='lxml').find('div', {'class':'innerArt'})
     daily_briefing = dict()
     
-    daily_briefing['title'] = content.find('div', {'class': 'miscTitle'}).text.split(' | ')[1].title()
+    daily_briefing['title'] = content.find('div', {'class': 'miscTitle'}).text.title()
     daily_briefing['headlines'] = [elem.text.replace('\n', ' ') for elem in content.find('div', {'class': 'dailyheadlinesbox'}).findAll('li')]
 
     return daily_briefing
