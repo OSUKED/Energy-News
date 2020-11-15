@@ -1,18 +1,25 @@
 from __future__ import absolute_import
 
+import os
 import json
 import pandas as pd
-from .scrapers import carbonbrief as cb
+from .scrapers import carbonbrief, bbc
 
 filepath_to_scraper_func = {
     'carbon_brief': {
-        'daily_briefing.json': cb.extract_daily_briefing,
-        'current_articles.json': cb.retrieve_all_current_articles,        
+        'daily_briefing.json': carbonbrief.extract_daily_briefing,
+        'current_articles.json': carbonbrief.retrieve_all_current_articles,        
+    },
+    'bbc': {
+        'current_articles.json': bbc.retrieve_all_current_articles 
     },
 }
 
 def scrape_and_save_data(data_dir, filepath_to_scraper_func=filepath_to_scraper_func):
     for source in filepath_to_scraper_func.keys():
+        if os.path.isdir(f'{data_dir}/{source}') == False:
+            os.mkdir(f'{data_dir}/{source}')
+        
         for filename, scraper_func in filepath_to_scraper_func[source].items():
             data = scraper_func()
 
