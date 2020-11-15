@@ -6,6 +6,6 @@ Last updated: 2020-11-15 10:43
 
 Sources:
 - [x] Carbon Brief
-- [ ] BBC 
+- [x] BBC 
 - [ ] Current News
 - [ ] FT
