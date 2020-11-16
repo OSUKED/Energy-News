@@ -117,11 +117,12 @@ def combine_current_articles(data_path=None, sources=filepath_to_scraper_func.ke
     cols_to_keep = ['title', 'date', 'lead', 'article_url', 'image_url', 'source', 'tags']
     current_articles = list(pd
                             .DataFrame(current_articles)
-                            .sort_values('date', ascending=False)
+                            .dropna(subset=['image_url'])
                             .pipe(clean_title_col)
                             .pipe(clean_lead_col)
                             .pipe(clean_date_col)
                             .pipe(format_tags)
+                            .sort_values('date', ascending=False)
                             [cols_to_keep]
                             .fillna('')
                             .T
