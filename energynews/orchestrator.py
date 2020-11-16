@@ -102,6 +102,9 @@ def retrieve_github_current_articles(sources):
     
     return current_articles
 
+clean_title_col = lambda df: df.assign(title=df['title'].str.replace(':', ' - '))
+clean_date_col = lambda df: df.assign(title=pd.to_datetime(df['date']).dt.strftime('%Y-%m-%d'))
+
 def combine_current_articles(data_path=None, sources=filepath_to_scraper_func.keys()):
     # Retrieving articles
     if data_path is not None:
@@ -114,7 +117,8 @@ def combine_current_articles(data_path=None, sources=filepath_to_scraper_func.ke
     current_articles = list(pd
                             .DataFrame(current_articles)
                             .sort_values('date', ascending=False)
-                            .pipe(lambda df: df.assign(title=df['title'].str.replace(':', ' - ')))
+                            .pipe(clean_title_col)
+                            .pipe(clean_date_col)
                             .pipe(format_tags)
                             [cols_to_keep]
                             .fillna('')
