@@ -122,6 +122,7 @@ def combine_current_articles(data_path=None, sources=filepath_to_scraper_func.ke
                             .pipe(clean_title_col)
                             .pipe(clean_lead_col)
                             .pipe(clean_date_col)
+                            .pipe(clean_source_col)
                             .pipe(format_tags)
                             .sort_values('date', ascending=False)
                             [cols_to_keep]
