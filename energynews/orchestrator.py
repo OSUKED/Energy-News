@@ -103,7 +103,7 @@ def retrieve_github_current_articles(sources):
     return current_articles
 
 clean_title_col = lambda df: df.assign(title=df['title'].str.replace(':', ' - '))
-clean_date_col = lambda df: df.assign(title=pd.to_datetime(df['date']).dt.strftime('%Y-%m-%d'))
+clean_date_col = lambda df: df.assign(date=pd.to_datetime(df['date']).dt.strftime('%Y-%m-%d'))
 
 def combine_current_articles(data_path=None, sources=filepath_to_scraper_func.keys()):
     # Retrieving articles
