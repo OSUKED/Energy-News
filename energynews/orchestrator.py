@@ -119,6 +119,7 @@ def combine_current_articles(data_path=None, sources=filepath_to_scraper_func.ke
     current_articles = list(pd
                             .DataFrame(current_articles)
                             .dropna(subset=['image_url'])
+                            .drop_duplicates(subset=['title'])
                             .pipe(clean_title_col)
                             .pipe(clean_lead_col)
                             .pipe(clean_date_col)
