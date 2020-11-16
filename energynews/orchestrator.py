@@ -23,7 +23,7 @@ def scrape_and_save_data(data_dir, filepath_to_scraper_func=filepath_to_scraper_
         for filename, scraper_func in filepath_to_scraper_func[source].items():
             articles = scraper_func()
             
-            for article in topic_articles:
+            for article in articles:
                 article.update( {'source': source})
 
             with open(f'{data_dir}/{source}/{filename}', 'w') as fp:
