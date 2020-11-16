@@ -133,10 +133,10 @@ article_to_md_txt = lambda article: f"""---
 title: {article['title']}
 date: {article['date']}
 tags: {article['tags']}
-source: {article['source']}
-image_url: {article['image_url']}
-lead: {article['lead']}
-article_url: {article['article_url']}
+source: "{article['source']}"
+image_url: "{article['image_url']}"
+lead: "{article['lead']}"
+article_url: "{article['article_url']}"
 ---
 
 ---
