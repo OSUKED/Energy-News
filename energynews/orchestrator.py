@@ -132,8 +132,8 @@ def combine_current_articles(data_path=None, sources=filepath_to_scraper_func.ke
     return current_articles
 
 article_to_md_txt = lambda article: f"""---
-title: {article['title']}
-date: {article['date']}
+title: "{article['title']}"
+date: "{article['date']}"
 tags: {article['tags']}
 source: "{article['source']}"
 image_url: "{article['image_url']}"
