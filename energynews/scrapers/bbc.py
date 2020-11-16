@@ -19,7 +19,7 @@ def extract_article_data(soup):
         'title': lambda soup: soup.find('a').text,
         'lead': lambda soup: soup.findAll('p')[-1].text,
         'article_url': lambda soup: 'https://www.bbc.co.uk' + soup.find('a')['href'],
-        'image_url': lambda soup: soup.find('img')['src']
+        'image_url': lambda soup: soup.findAll('img')[-1]['src']
     }
     
     article = dict()
