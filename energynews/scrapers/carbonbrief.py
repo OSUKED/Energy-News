@@ -118,6 +118,9 @@ def get_daily_briefing_url():
     r = requests.post(daily_briefing_request_url, data=data, headers=headers)
     daily_briefing_url = r.text
     
+    if daily_briefing_url == '':
+        daily_briefing_url = get_daily_briefing_url(pd.Timestamp.now()-pd.Timedelta(days=1))
+    
     return daily_briefing_url
 
 def request_CB_daily_brief_page():

@@ -21,10 +21,13 @@ def scrape_and_save_data(data_dir, filepath_to_scraper_func=filepath_to_scraper_
             os.mkdir(f'{data_dir}/{source}')
         
         for filename, scraper_func in filepath_to_scraper_func[source].items():
-            data = scraper_func()
+            articles = scraper_func()
+            
+            for article in topic_articles:
+                article.update( {'source': source})
 
             with open(f'{data_dir}/{source}/{filename}', 'w') as fp:
-                json.dump(data, fp)
+                articles.dump(data, fp)
                 
     return
                 
