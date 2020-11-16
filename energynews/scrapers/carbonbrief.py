@@ -98,17 +98,16 @@ def retrieve_all_current_articles():
 """
 Daily Briefing
 """
-def get_daily_briefing_url():
+def get_daily_briefing_url(date=pd.Timestamp.now()):
     daily_briefing_request_url = 'https://www.carbonbrief.org/wp-admin/admin-ajax.php'
 
-    current_dt = pd.Timestamp.now()
-    days_to_go_back = max(current_dt.dayofweek-4, 0)
-    briefing_dt = (current_dt-pd.Timedelta(days=days_to_go_back)).strftime('%Y-%m-%d')
+    days_to_go_back = max(date.dayofweek-4, 0)
+    briefing_date = (date-pd.Timedelta(days=days_to_go_back)).strftime('%Y-%m-%d')
 
     data = {
         'action': 'getbriefurl',
         'nonce': '9e4988efb4',
-        'date': briefing_dt
+        'date': briefing_date
     }
 
     headers = {
@@ -119,7 +118,8 @@ def get_daily_briefing_url():
     daily_briefing_url = r.text
     
     if daily_briefing_url == '':
-        daily_briefing_url = get_daily_briefing_url(pd.Timestamp.now()-pd.Timedelta(days=1))
+        date = pd.Timestamp.now()-pd.Timedelta(days=1)
+        daily_briefing_url = get_daily_briefing_url(date)
     
     return daily_briefing_url
 
