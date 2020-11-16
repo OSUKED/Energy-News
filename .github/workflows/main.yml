@@ -23,4 +23,11 @@ jobs:
         python update_data.py
         dir
       
-    - uses: stefanzweifel/git-auto-commit-action@v4
+    - uses: stefanzweifel/git-auto-commit-action@v4 
+    
+    - name: Trigger news site re-build
+      run: |
+        curl -X POST https://api.github.com/repos/AyrtonB/Energy-News-Site/dispatches \
+        -H 'Accept: application/vnd.github.everest-preview+json' \
+        -u ${{ secrets.TOKEN }} \
+        --data '{"event_type": "ping"}'
