@@ -142,7 +142,7 @@ article_url: {article['article_url']}
 Saving Markdown
 """
 def rebuild_posts(current_articles, docs_dir):        
-    posts_dir = f'{docs_dir}/posts'
+    posts_dir = f'{docs_dir}/_posts'
     
     if os.path.exists(posts_dir):
         shutil.rmtree(posts_dir)
