@@ -154,7 +154,8 @@ def combine_current_articles(data_path=None, sources=filepath_to_scraper_func.ke
 """
 Saving Markdown
 """
-article_to_md_txt = lambda article: f"""---
+article_to_md_txt = (
+    lambda article: f"""---
 title: "{article['title']}"
 date: "{article['date']}"
 tags: {article['tags']}
@@ -167,52 +168,59 @@ article_url: "{article['article_url']}"
 
 ---
 """
+)
+
 
 def download_img(img_url, img_dir, img_filename, img_filetype=None):
     headers = {
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36'
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36"
     }
-    
+
     if img_filetype is None:
-        img_filetype = img_url.split('.')[-1]
-        
+        img_filetype = img_url.split(".")[-1]
+
     img_data = requests.get(img_url, headers=headers).content
 
-    with open(f'{img_dir}/{img_filename}.{img_filetype}', 'wb') as img_file:
+    with open(f"{img_dir}/{img_filename}.{img_filetype}", "wb") as img_file:
         img_file.write(img_data)
-        
-    img_filename_ext = f'{img_filename}.{img_filetype}'
-        
+
+    img_filename_ext = f"{img_filename}.{img_filetype}"
+
     return img_filename_ext
 
-def rebuild_posts(current_articles, docs_dir):        
-    posts_dir = f'{docs_dir}/_posts'
-    img_dir = f'{docs_dir}/.vuepress/public/assets/img/post_thumbnails'
-    
+
+def rebuild_posts(current_articles, docs_dir):
+    posts_dir = f"{docs_dir}/_posts"
+    img_dir = f"{docs_dir}/.vuepress/public/assets/img/post_thumbnails"
+
     for dir_ in [img_dir, posts_dir]:
         if os.path.exists(dir_):
             shutil.rmtree(dir_)
-    
+
     for dir_ in [docs_dir, img_dir, posts_dir]:
         if os.path.exists(dir_) == False:
             os.makedirs(dir_)
-        
-    for idx, current_article in enumerate(current_articles):       
+
+    for idx, current_article in enumerate(current_articles):
         try:
-            img_url = current_article['image_url']
-            if img_url != '':
-                if 'image_filetype' in current_article.keys():
-                    image_filetype = current_article['image_filetype']
+            img_url = current_article["image_url"]
+            if img_url != "":
+                if "image_fp" in current_article.keys():
+                    image_fp = current_article["image_fp"]
                 else:
-                    image_filetype = None
-                    
-                img_filename_ext = download_img(img_url, img_dir, str(idx), image_filetype)
-                current_article['image_fp'] = f'/assets/img/post_thumbnails/{img_filename_ext}'
-                
-            with open(f'{posts_dir}/{idx}.md', 'w', encoding='utf-8') as article_md:
+                    image_fp = None
+
+                img_filename_ext = download_img(img_url, img_dir, str(idx), image_fp)
+                current_article[
+                    "image_fp"
+                ] = f"/assets/img/post_thumbnails/{img_filename_ext}"
+
+            with open(f"{posts_dir}/{idx}.md", "w", encoding="utf-8") as article_md:
                 article_md_txt = article_to_md_txt(current_article)
                 article_md.write(article_md_txt)
         except:
-            print(f"{current_article['title']} (from {current_article['source']}) could not be processed")
-        
+            print(
+                f"{current_article['title']} (from {current_article['source']}) could not be processed"
+            )
+
     return
