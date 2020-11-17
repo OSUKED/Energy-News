@@ -205,12 +205,12 @@ def rebuild_posts(current_articles, docs_dir):
         try:
             img_url = current_article["image_url"]
             if img_url != "":
-                if "image_fp" in current_article.keys():
-                    image_fp = current_article["image_fp"]
+                if "img_filetype" in current_article.keys():
+                    img_filetype = current_article["img_filetype"]
                 else:
-                    image_fp = None
+                    img_filetype = None
 
-                img_filename_ext = download_img(img_url, img_dir, str(idx), image_fp)
+                img_filename_ext = download_img(img_url, img_dir, str(idx), img_filetype)
                 current_article[
                     "image_fp"
                 ] = f"/assets/img/post_thumbnails/{img_filename_ext}"
