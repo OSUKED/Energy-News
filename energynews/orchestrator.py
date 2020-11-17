@@ -135,6 +135,10 @@ def combine_current_articles(data_path=None, sources=filepath_to_scraper_func.ke
     
     return current_articles
 
+
+"""
+Saving Markdown
+"""
 article_to_md_txt = lambda article: f"""---
 title: "{article['title']}"
 date: "{article['date']}"
@@ -148,28 +152,41 @@ article_url: "{article['article_url']}"
 ---
 """
 
+def download_img(img_url, img_dir, img_filename):
+    img_filetype = img_url.split('.')[-1]
+    img_data = requests.get(img_url).content
 
-"""
-Saving Markdown
-"""
+    with open(f'{img_dir}/{img_filename}.{img_filetype}', 'wb') as img_file:
+        img_file.write(img_data)
+        
+    img_filename_ext = f'{img_filename}.{img_filetype}'
+        
+    return img_filename_ext
+
 def rebuild_posts(current_articles, docs_dir):        
     posts_dir = f'{docs_dir}/_posts'
+    img_dir = f'{docs_dir}/.vuepress/public/assets/img/post_thumbnails'
     
-    if os.path.exists(posts_dir):
-        shutil.rmtree(posts_dir)
+    for dir_ in [img_dir, posts_dir]:
+        if os.path.exists(dir_):
+            shutil.rmtree(dir_)
     
-    if os.path.exists(docs_dir) == False:
-        os.mkdir(docs_dir)
-        
-    os.mkdir(posts_dir)
+    for dir_ in [docs_dir, img_dir, posts_dir]:
+        if os.path.exists(dir_) == False:
+            os.makedirs(dir_)
         
     for idx, current_article in enumerate(current_articles):
         article_md_txt = article_to_md_txt(current_article)
         
         try:
+            img_url = current_article['image_url']
+            if img_url != '':
+                img_filename_ext = download_img(img_url, img_dir, str(idx))
+                current_article['image_fp'] = f'/assets/img/post_thumbnails/{img_filename_ext}'
+                
             with open(f'{posts_dir}/{idx}.md', 'w', encoding='utf-8') as article_md:
                 article_md.write(article_md_txt)
         except:
-            print(f"{current_article['title']} could not be processed")
+            print(f"{current_article['title']} (from {current_article['source']}) could not be processed")
         
     return
