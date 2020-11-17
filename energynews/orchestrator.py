@@ -6,7 +6,7 @@ import shutil
 import requests
 import numpy as np
 import pandas as pd
-from .scrapers import carbon_brief, bbc, current_news, renews, offshorewind, rechargenews
+from .scrapers import carbon_brief, bbc, current_news, renews, offshorewind, rechargenews, greentechmedia
 
 """
 Scraping & Saving from Individual Sources
