@@ -6,7 +6,7 @@ import shutil
 import requests
 import numpy as np
 import pandas as pd
-from .scrapers import carbon_brief, bbc, current_news
+from .scrapers import carbon_brief, bbc, current_news, renews
 
 """
 Scraping & Saving from Individual Sources
@@ -21,6 +21,9 @@ filepath_to_scraper_func = {
     },
     'current_news': {
         'current_articles.json': current_news.retrieve_all_current_articles 
+    },
+    'renews': {
+        'current_articles.json': renews.retrieve_all_current_articles 
     },
 }
 
