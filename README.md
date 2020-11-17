@@ -8,7 +8,7 @@ Sources:
 
 - [x] Carbon Brief
 - [x] BBC
-- [ ] Current News
+- [x] Current News
 - [ ] Green Tech Media
 - [ ] FT
 

@@ -6,18 +6,21 @@ import shutil
 import requests
 import numpy as np
 import pandas as pd
-from .scrapers import carbonbrief, bbc
+from .scrapers import carbon_brief, bbc, current_news
 
 """
 Scraping & Saving from Individual Sources
 """
 filepath_to_scraper_func = {
     'carbon_brief': {
-        'daily_briefing.json': carbonbrief.extract_daily_briefing,
-        'current_articles.json': carbonbrief.retrieve_all_current_articles,        
+        'daily_briefing.json': carbon_brief.extract_daily_briefing,
+        'current_articles.json': carbon_brief.retrieve_all_current_articles,        
     },
     'bbc': {
         'current_articles.json': bbc.retrieve_all_current_articles 
+    },
+    'current_news': {
+        'current_articles.json': current_news.retrieve_all_current_articles 
     },
 }
 
