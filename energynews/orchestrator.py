@@ -28,7 +28,7 @@ filepath_to_scraper_func = {
     'offshorewind': {
         'current_articles.json': offshorewind.retrieve_all_current_articles 
     },
-    'rechargenews': {
+    'recharge_news': {
         'current_articles.json': rechargenews.retrieve_all_current_articles 
     },
 }
