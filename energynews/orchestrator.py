@@ -6,7 +6,7 @@ import shutil
 import requests
 import numpy as np
 import pandas as pd
-from .scrapers import carbon_brief, bbc, current_news, renews, offshorewind
+from .scrapers import carbon_brief, bbc, current_news, renews, offshorewind, rechargenews
 
 """
 Scraping & Saving from Individual Sources
@@ -27,6 +27,9 @@ filepath_to_scraper_func = {
     },
     'offshorewind': {
         'current_articles.json': offshorewind.retrieve_all_current_articles 
+    },
+    'rechargenews': {
+        'current_articles.json': rechargenews.retrieve_all_current_articles 
     },
 }
 
@@ -129,7 +132,6 @@ def combine_current_articles(data_path=None, sources=filepath_to_scraper_func.ke
         current_articles = retrieve_github_current_articles(sources)
         
     # Sorting on date
-    cols_to_keep = ['title', 'date', 'lead', 'article_url', 'image_url', 'source', 'tags']
     current_articles = list(pd
                             .DataFrame(current_articles)
                             .dropna(subset=['image_url'])
@@ -140,7 +142,6 @@ def combine_current_articles(data_path=None, sources=filepath_to_scraper_func.ke
                             .pipe(clean_source_col)
                             .pipe(format_tags)
                             .sort_values('date', ascending=False)
-                            [cols_to_keep]
                             .fillna('')
                             .T
                             .to_dict()
@@ -167,12 +168,14 @@ article_url: "{article['article_url']}"
 ---
 """
 
-def download_img(img_url, img_dir, img_filename):
+def download_img(img_url, img_dir, img_filename, img_filetype=None):
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36'
     }
     
-    img_filetype = img_url.split('.')[-1]
+    if img_filetype is None:
+        img_filetype = img_url.split('.')[-1]
+        
     img_data = requests.get(img_url, headers=headers).content
 
     with open(f'{img_dir}/{img_filename}.{img_filetype}', 'wb') as img_file:
@@ -198,7 +201,12 @@ def rebuild_posts(current_articles, docs_dir):
         try:
             img_url = current_article['image_url']
             if img_url != '':
-                img_filename_ext = download_img(img_url, img_dir, str(idx))
+                if 'image_filetype' in current_article.keys():
+                    image_filetype = current_article['image_filetype']
+                else:
+                    image_filetype = None
+                    
+                img_filename_ext = download_img(img_url, img_dir, str(idx), image_filetype)
                 current_article['image_fp'] = f'/assets/img/post_thumbnails/{img_filename_ext}'
                 
             with open(f'{posts_dir}/{idx}.md', 'w', encoding='utf-8') as article_md:
