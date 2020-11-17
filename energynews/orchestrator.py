@@ -175,9 +175,7 @@ def rebuild_posts(current_articles, docs_dir):
         if os.path.exists(dir_) == False:
             os.makedirs(dir_)
         
-    for idx, current_article in enumerate(current_articles):
-        article_md_txt = article_to_md_txt(current_article)
-        
+    for idx, current_article in enumerate(current_articles):       
         try:
             img_url = current_article['image_url']
             if img_url != '':
@@ -185,6 +183,7 @@ def rebuild_posts(current_articles, docs_dir):
                 current_article['image_fp'] = f'/assets/img/post_thumbnails/{img_filename_ext}'
                 
             with open(f'{posts_dir}/{idx}.md', 'w', encoding='utf-8') as article_md:
+                article_md_txt = article_to_md_txt(current_article)
                 article_md.write(article_md_txt)
         except:
             print(f"{current_article['title']} (from {current_article['source']}) could not be processed")
