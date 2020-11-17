@@ -145,6 +145,7 @@ date: "{article['date']}"
 tags: {article['tags']}
 source: "{article['source']}"
 image_url: "{article['image_url']}"
+image_fp: "{article['image_fp']}"
 lead: "{article['lead']}"
 article_url: "{article['article_url']}"
 ---
