@@ -21,6 +21,7 @@ def retrieve_all_current_articles():
                     .pipe(lambda df: df.assign(pubDate=pd.to_datetime(df['pubDate']).dt.strftime('%Y-%m-%d %H:%M')))
                     .pipe(lambda df: df.assign(image_filetype=df['media:content'].apply(lambda x: x['@type']).map({'image/jpeg': 'jpg', 'image/png': 'png'})))
                     .pipe(lambda df: df.assign(image_url=df['media:content'].apply(lambda x: x['@url'])))
+                    .pipe(lambda df: df.assign(description=df['description'].apply(lambda description: BeautifulSoup(description).get_text().replace('\xa0', ' ').replace('\n', ' ').replace('  ', ' ')[:250]+' ...')))
                     .drop(columns=['media:content', 'guid'])
                     .rename(columns={
                         'link': 'article_url',
