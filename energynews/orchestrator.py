@@ -6,7 +6,7 @@ import shutil
 import requests
 import numpy as np
 import pandas as pd
-from .scrapers import carbon_brief, bbc, current_news, renews
+from .scrapers import carbon_brief, bbc, current_news, renews, offshorewind
 
 """
 Scraping & Saving from Individual Sources
@@ -24,6 +24,9 @@ filepath_to_scraper_func = {
     },
     'renews': {
         'current_articles.json': renews.retrieve_all_current_articles 
+    },
+    'offshorewind': {
+        'current_articles.json': offshorewind.retrieve_all_current_articles 
     },
 }
 

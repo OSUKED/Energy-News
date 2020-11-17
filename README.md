@@ -9,7 +9,9 @@ Sources:
 - [x] Carbon Brief
 - [x] BBC
 - [x] Current News
-- [ ] reNews
+- [x] reNews.biz
+- [ ] offshorewind.biz
+- [ ] recharge news
 - [ ] Green Tech Media
 - [ ] FT
 
