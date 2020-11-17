@@ -75,8 +75,13 @@ def format_tags(df_articles):
             tag = getattr(row, tag_source_col)
 
             if tag is not np.nan:
-                tag = tag.lower().replace('_', ' ').replace('-', ' ').strip()
-                row_tags += [tag]
+                row_tags += [tag
+                             .lower()
+                             .replace('_', ' ')
+                             .replace('-', ' ')
+                             .replace(', ', '\n  - ')
+                             .strip()
+                            ]
 
         row_tags_str = '\n  - '+'\n  - '.join(row_tags)
         all_tags += [row_tags_str]

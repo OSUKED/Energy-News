@@ -21,6 +21,7 @@ setuptools.setup(
         'lxml',
         'beautifulsoup4',
         'ipypb',
+        'xmltodict'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
