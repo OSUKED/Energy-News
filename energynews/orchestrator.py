@@ -154,8 +154,12 @@ article_url: "{article['article_url']}"
 """
 
 def download_img(img_url, img_dir, img_filename):
+    headers = {
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36'
+    }
+    
     img_filetype = img_url.split('.')[-1]
-    img_data = requests.get(img_url).content
+    img_data = requests.get(img_url, headers=headers).content
 
     with open(f'{img_dir}/{img_filename}.{img_filetype}', 'wb') as img_file:
         img_file.write(img_data)
