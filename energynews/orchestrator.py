@@ -115,7 +115,8 @@ def retrieve_github_current_articles(sources):
     for source in sources:
         articles_url = f'https://raw.githubusercontent.com/AyrtonB/Energy-News/main/data/{source}/current_articles.json'
         articles_json = requests.get(articles_url).text
-        current_articles += json.loads(articles_json)     
+        source_current_articles = json.loads(articles_json)    
+        current_articles += source_current_articles
     
     return current_articles
 
@@ -205,8 +206,8 @@ def rebuild_posts(current_articles, docs_dir):
         try:
             img_url = current_article["image_url"]
             if img_url != "":
-                if "img_filetype" in current_article.keys():
-                    img_filetype = current_article["img_filetype"]
+                if current_article["image_filetype"] != "":
+                    img_filetype = current_article["image_filetype"]
                 else:
                     img_filetype = None
 

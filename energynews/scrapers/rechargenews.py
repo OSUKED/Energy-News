@@ -21,8 +21,8 @@ def retrieve_all_current_articles():
                     .pipe(lambda df: df.assign(category=df['category'].apply(lambda cats: ', '.join(cats) if isinstance(cats, list) else cats)))
                     .pipe(lambda df: df.assign(description=df['description']))
                     .pipe(lambda df: df.assign(pubDate=pd.to_datetime(df['pubDate']).dt.strftime('%Y-%m-%d %H:%M')))
-                    .pipe(lambda df: df.assign(img_filetype=df['media:content'].apply(lambda x: x['@type']).map({'image/jpeg': 'jpg'})))
-                    .pipe(lambda df: df.assign(img_url=df['media:content'].apply(lambda x: x['@url'])))
+                    .pipe(lambda df: df.assign(image_filetype=df['media:content'].apply(lambda x: x['@type']).map({'image/jpeg': 'jpg'})))
+                    .pipe(lambda df: df.assign(image_url=df['media:content'].apply(lambda x: x['@url'])))
                     .drop(columns=['media:content'])
                     .rename(columns={
                         'link': 'article_url',
