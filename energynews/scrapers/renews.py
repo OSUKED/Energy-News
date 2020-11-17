@@ -12,7 +12,7 @@ Article Retrieval
 """
 def article_url_to_image_url(article_url):
     r = requests.get(article_url)
-    soup = BeautifulSoup(r.content)
+    soup = BeautifulSoup(r.content, features='lxml')
 
     image_url = 'https://renews.biz/'+soup.find('div', {'class': 'head-image'}).find('img')['src']
 
