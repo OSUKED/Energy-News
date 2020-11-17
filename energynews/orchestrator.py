@@ -6,7 +6,9 @@ import shutil
 import requests
 import numpy as np
 import pandas as pd
-from .scrapers import carbon_brief, bbc, current_news, renews, offshorewind, rechargenews, green_tech_media
+from .scrapers import (carbon_brief, bbc, current_news, 
+                       renews, offshorewind, recharge_news, 
+                       green_tech_media, energy_live_news)
 
 """
 Scraping & Saving from Individual Sources
@@ -29,10 +31,13 @@ filepath_to_scraper_func = {
         'current_articles.json': offshorewind.retrieve_all_current_articles 
     },
     'recharge_news': {
-        'current_articles.json': rechargenews.retrieve_all_current_articles 
+        'current_articles.json': recharge_news.retrieve_all_current_articles 
     },
     'green_tech_media': {
         'current_articles.json': green_tech_media.retrieve_all_current_articles 
+    },
+    'energy_live_news': {
+        'current_articles.json': energy_live_news.retrieve_all_current_articles 
     },
 }
 
