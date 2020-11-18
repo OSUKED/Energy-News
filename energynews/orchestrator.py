@@ -39,6 +39,12 @@ filepath_to_scraper_func = {
     'energy_live_news': {
         'current_articles.json': energy_live_news.retrieve_all_current_articles 
     },
+    'business_green': {
+        'current_articles.json': business_green.retrieve_all_current_articles 
+    },
+    'guardian': {
+        'current_articles.json': guardian.retrieve_all_current_articles 
+    },
 }
 
 def scrape_and_save_data(data_dir, filepath_to_scraper_func=filepath_to_scraper_func):
