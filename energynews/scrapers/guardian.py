@@ -28,7 +28,7 @@ def retrieve_all_current_articles():
 
     articles = list(pd
                     .DataFrame(xml['rss']['channel']['item'])
-                    .pipe(lambda df: df.assign(category=df['category'].str.join(', ')))
+                    .pipe(lambda df: df.assign(category=df['category'].apply(lambda cats: [cat['#text'] for cat in cats]).str.join(', ')))
                     .pipe(lambda df: df.assign(pubDate=pd.to_datetime(df['pubDate']).dt.strftime('%Y-%m-%d %H:%M')))
                     .pipe(lambda df: df.assign(image_url=df['media:content'].apply(lambda x: x[-1]['@url'])))
                     .pipe(lambda df: df.assign(image_filetype=df['image_url'].apply(extract_image_filetype)))
