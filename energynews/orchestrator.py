@@ -98,8 +98,7 @@ def format_tags(df_articles):
         for tag_source_col in tag_source_cols:
             tag = getattr(row, tag_source_col)
 
-            if tag is not np.nan:
-                print(tag)
+            if isinstance(tag, str):
                 row_tags += [tag
                              .lower()
                              .replace('_', ' ')
