@@ -16,7 +16,7 @@ Scraping & Saving from Individual Sources
 """
 filepath_to_scraper_func = {
     'carbon_brief': {
-        'daily_briefing.json': carbon_brief.extract_daily_briefing,
+#         'daily_briefing.json': carbon_brief.extract_daily_briefing,
         'current_articles.json': carbon_brief.retrieve_all_current_articles,        
     },
     'bbc': {
